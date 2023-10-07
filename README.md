@@ -2,7 +2,7 @@
 ### Ejecutar API
 Para correr la api para agregar, modificar y eliminar clientes y productos:
 
-Cambiar el username, password, host y puertos de la BD con los clientes y productos en `index.js`.
+Cambiar el username, password, host y puertos de la BD con los clientes y productos en `config.js`.
 
 Luego correr `npm install` en el directorio actual, y luego:
 
