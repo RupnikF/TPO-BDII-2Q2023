@@ -1,16 +1,8 @@
 const express = require('express');
-const { Client } = require('pg');
+const { client } = require('./config.js');
 
 const app = express();
 const port = process.env.PORT || 3000;
-
-const client = new Client({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'postgres',
-  password: 'postgres',
-  port: 5432,
-});
 
 client.connect();
 
