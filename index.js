@@ -4,7 +4,6 @@ const { Client } = require('pg');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Configuración de la conexión a la base de datos PostgreSQL
 const client = new Client({
   user: 'postgres',
   host: 'localhost',
@@ -15,10 +14,8 @@ const client = new Client({
 
 client.connect();
 
-// Middleware para procesar datos JSON
 app.use(express.json());
 
-// Rutas para clientes
 app.get('/clientes', async (req, res) => {
   const result = await client.query('SELECT * FROM e01_cliente');
   res.json(result.rows);
@@ -49,6 +46,11 @@ app.delete('/clientes/:id', async (req, res) => {
   res.json({ message: 'Cliente eliminado' });
 });
 
+app.get('/productos', async (req, res) => {
+  const result = await client.query('SELECT * FROM e01_producto');
+  res.json(result.rows);
+});
+
 app.post('/productos', async (req, res) => {
   const { marca, nombre, descripcion, precio, stock } = req.body;
   const result = await client.query(
@@ -67,8 +69,6 @@ app.put('/productos/:id', async (req, res) => {
   );
   res.json(result.rows[0]);
 });
-
-// Rutas para productos (similar a las rutas de clientes)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
