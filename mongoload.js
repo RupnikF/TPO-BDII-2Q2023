@@ -3,7 +3,7 @@ const { client } = require('./config.js');
 
 const url = 'mongodb://localhost:27017';
 const mongoClient = new MongoClient(url);
-const dbName = 'test';
+const dbName = 'tpo';
 
 async function loadMongoData() {
   await client.connect();
@@ -11,7 +11,7 @@ async function loadMongoData() {
   const db = mongoClient.db(dbName);
 
   const createdClients = async () => {
-    const clientResults = await client.query('SELECT * FROM e01_cliente c join e01_telefono t on c.nro_cliente = t.nro_cliente');
+    const clientResults = await client.query('SELECT * FROM e01_cliente c left outer join e01_telefono t on c.nro_cliente = t.nro_cliente');
     const map = clientResults.rows.reduce((prev, curr) => {
       const { codigo_area, nro_telefono, tipo, ...client } = curr;
       if (!prev.has(curr.nro_cliente)) {
@@ -40,7 +40,7 @@ async function loadMongoData() {
   }
 
   Promise.all([createdClients(), createdProducts()]).then(async ([resultsClient, createdProducts]) => {
-    const facturaResults = await client.query('SELECT * FROM e01_factura f join e01_detalle_factura df on f.nro_factura = df.nro_factura');
+    const facturaResults = await client.query('SELECT * FROM e01_factura f left outer join e01_detalle_factura df on f.nro_factura = df.nro_factura');
     const map = facturaResults.rows.reduce((prev, curr) => {
       const { codigo_producto, nro_item, cantidad, ...factura } = curr;
       if (!prev.has(curr.nro_factura)) {
