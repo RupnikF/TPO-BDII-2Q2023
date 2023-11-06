@@ -65,3 +65,26 @@ app.put('/productos/:id', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+// Parte de Mongo
+
+const mongoose = require('mongoose');
+//const Router = require("./routes")
+
+mongoose.connect('mongodb://127.0.0.1/tpo');
+
+const mongoapp=express();
+mongoapp.use(express.json());
+
+const db = mongoose.connection;
+db.on("error", console.error.bind(console,"connection error: "));
+db.once("open", function() {
+    console.log("Connected Successfully");
+});
+
+mongoapp.listen(3001, () => {
+  console.log(`Server is running on port 3001`);
+});
+
+// hay que hacer un schema para cada collection que usemos
+
