@@ -4,9 +4,9 @@ const { client } = require('./config.js');
 const app = express();
 const port = process.env.PORT || 3000;
 
-client.connect();
+//client.connect();
 
-app.use(express.json());
+//app.use(express.json());
 
 app.get('/clientes', async (req, res) => {
   const result = await client.query('SELECT * FROM e01_cliente');
@@ -62,14 +62,49 @@ app.put('/productos/:id', async (req, res) => {
   res.json(result.rows[0]);
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+//app.listen(port, () => {
+//  console.log(`Server is running on port ${port}`);
+//});
 
 // Parte de Mongo
 
 const mongoose = require('mongoose');
 //const Router = require("./routes")
+
+const { Schema } = mongoose;
+
+const clientSchema = new Schema({
+  activo: Number,
+  apellido: String,
+  direccion: String,
+  nombre: String,
+  telefonos: [{codigo_area:Number,nro_telefono:Number,tipo:String}],
+  nro_cliente: Number
+});
+const ClientesModel = mongoose.model('Clientes', clientSchema);
+
+const facturaSchema = new Schema({
+  fecha: Date,
+  iva: Number,
+  nro_cliente: Number,
+  nro_factura: Number,
+  total_con_iva: Number,
+  total_sin_iva: Number,
+  detalle_factura: [{nro_item:Number,codigo_producto:Number,cantidad:Number}]
+});
+const FacturaModel = mongoose.model('Factura',facturaSchema);
+
+const productosSchema = new Schema({
+  codigo_producto: Number,
+  descripcion: String,
+  marca: Number,
+  nombre: Number,
+  precio: Number,
+  stock: Number
+  });
+const ProductosModel = mongoose.model('Productos',productosSchema);
+
+
 
 mongoose.connect('mongodb://127.0.0.1/tpo');
 
