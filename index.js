@@ -4,9 +4,9 @@ const { client } = require('./config.js');
 const app = express();
 const port = process.env.PORT || 3000;
 
-//client.connect();
+client.connect();
 
-//app.use(express.json());
+app.use(express.json());
 
 app.get('/clientes', async (req, res) => {
   const result = await client.query('SELECT * FROM e01_cliente');
@@ -78,10 +78,10 @@ const clientSchema = new Schema({
   apellido: String,
   direccion: String,
   nombre: String,
-  telefonos: [{codigo_area:Number,nro_telefono:Number,tipo:String}],
+  telefonos: {type: [{codigo_area:Number,nro_telefono:Number,tipo:String}], default: []},
   nro_cliente: Number
-});
-const ClientesModel = mongoose.model('Clientes', clientSchema);
+}, {versionKey: false});
+const ClientesModel = mongoose.model('clientes', clientSchema);
 
 const facturaSchema = new Schema({
   fecha: Date,
@@ -91,18 +91,18 @@ const facturaSchema = new Schema({
   total_con_iva: Number,
   total_sin_iva: Number,
   detalle_factura: [{nro_item:Number,codigo_producto:Number,cantidad:Number}]
-});
-const FacturaModel = mongoose.model('Factura',facturaSchema);
+}, {versionKey: false});
+const FacturaModel = mongoose.model('facturas',facturaSchema);
 
 const productosSchema = new Schema({
   codigo_producto: Number,
   descripcion: String,
-  marca: Number,
-  nombre: Number,
+  marca: String,
+  nombre: String,
   precio: Number,
   stock: Number
-  });
-const ProductosModel = mongoose.model('Productos',productosSchema);
+  }, {versionKey: false});
+const ProductosModel = mongoose.model('productos',productosSchema);
 
 
 
@@ -116,6 +116,126 @@ db.on("error", console.error.bind(console,"connection error: "));
 db.once("open", function() {
     console.log("Connected Successfully");
 });
+
+
+mongoapp.get('/mongo/clientes', async (req, res) => {
+  try {
+    const result = await ClientesModel.find().exec();
+    res.json(result); // Send the array of documents directly
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error when requesting to get Clients' });
+  }
+});
+
+
+mongoapp.post('/mongo/clientes', async (req, res) => {
+  try {
+    // Find the highest client number
+    const highestClient = await ClientesModel.findOne().sort('-nro_cliente').exec();
+
+    // Determine the new client number
+    const newClientNumber = highestClient ? highestClient.nro_cliente + 1 : 1;
+    
+    const newCliente = new ClientesModel({nro_cliente: newClientNumber, ...req.body});
+    const savedCliente = await newCliente.save();
+    res.status(201).json(savedCliente); // Respond with the saved document
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error when requesting to post a Client' });
+  }
+});
+
+mongoapp.put('/mongo/clientes/:nro_cliente', async (req, res) => {
+  const nro_cliente = req.params.nro_cliente;
+
+  try {
+    const updatedCliente = await ClientesModel.findOneAndUpdate(
+      { nro_cliente: nro_cliente }, // Use the custom identifier field
+      req.body,
+      { new: true }
+    );
+
+    if (!updatedCliente) {
+      return res.status(404).json({ error: 'Client not found' });
+    }
+
+    res.json(updatedCliente);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error when requesting to put a Client' });
+  }
+});
+
+
+mongoapp.delete('/mongo/clientes/:nro_cliente', async (req, res) => {
+  const nro_cliente = req.params.nro_cliente;
+
+  try {
+    // Use findByIdAndDelete to find the document by ID and delete it
+    const deletedCliente = await ClientesModel.findOneAndDelete({ nro_cliente: nro_cliente })
+
+    if (!deletedCliente) {
+      return res.status(404).json({ error: 'Client not found' });
+    }
+
+    res.json({ message: 'Client deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error when requesting to delete a Client' });
+  }
+});
+
+
+mongoapp.get('/mongo/productos', async (req, res) => {
+  try {
+    const result = await ProductosModel.find().exec();
+    res.json(result); // Send the array of documents directly
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error when requesting to get Products' });
+  }
+});
+
+mongoapp.post('/mongo/productos', async (req, res) => {
+  try {
+    // Find the highest client number
+    const ultimoProducto = await ProductosModel.findOne().sort('-codigo_producto').exec();
+
+    // Determine the new client number
+    const newCode = ultimoProducto ? ultimoProducto.codigo_producto + 1 : 1;
+    
+    const newProducto = new ProductosModel({codigo_producto: newCode, ...req.body});
+    const savedProduct = await newProducto.save();
+    res.status(201).json(savedProduct); // Respond with the saved document
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error when requesting to post a Product' });
+  }
+});
+
+
+mongoapp.put('/mongo/productos/:codigo_producto', async (req, res) => {
+  const codigo_producto = req.params.codigo_producto;
+
+  try {
+    const updatedProduct = await ProductosModel.findOneAndUpdate(
+      { codigo_producto: codigo_producto }, // Use the custom identifier field
+      req.body,
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ error: 'Client not found' });
+    }
+
+    res.json(updatedProduct);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error when requesting to put a Product' });
+  }
+});
+
 
 mongoapp.listen(3001, () => {
   console.log(`Server is running on port 3001`);
