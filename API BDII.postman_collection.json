@@ -12,23 +12,73 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{l3000}}clientes",
+					"raw": "http://localhost:3000/clientes",
+					"protocol": "http",
 					"host": [
-						"{{l3000}}clientes"
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"clientes"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "get productos",
+			"name": "Get Clientes Mongo",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{l3000}}productos",
+					"raw": "http://localhost:3001/mongo/clientes",
+					"protocol": "http",
 					"host": [
-						"{{l3000}}productos"
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"mongo",
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Productos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/productos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Productos Mongo",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/mongo/productos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"mongo",
+						"productos"
 					]
 				}
 			},
@@ -49,9 +99,43 @@
 					}
 				},
 				"url": {
-					"raw": "{{l3000}}clientes",
+					"raw": "http://localhost:3000/clientes",
+					"protocol": "http",
 					"host": [
-						"{{l3000}}clientes"
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"clientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Clientes Mongo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Maurito\",\r\n    \"apellido\": \"Baez\",\r\n    \"direccion\": \"Evergreen Av. 123\",\r\n    \"activo\": 1236\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/mongo/clientes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"mongo",
+						"clientes"
 					]
 				}
 			},
@@ -72,12 +156,45 @@
 					}
 				},
 				"url": {
-					"raw": "{{l3000}}clientes/106",
+					"raw": "http://localhost:3000/clientes/106",
+					"protocol": "http",
 					"host": [
-						"{{l3000}}clientes"
+						"localhost"
 					],
+					"port": "3000",
 					"path": [
+						"clientes",
 						"106"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put Clientes Mongo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombre\": \"Maurasito2\",\r\n    \"apellido\": \"Baasaez\",\r\n    \"direccion\": \"Evergraaaeen Av. 123\",\r\n    \"activo\": 14545\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/mongo/clientes/102",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"mongo",
+						"clientes",
+						"102"
 					]
 				}
 			},
@@ -89,12 +206,36 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{l3000}}clientes/106",
+					"raw": "http://localhost:3000/clientes/106",
+					"protocol": "http",
 					"host": [
-						"{{l3000}}clientes"
+						"localhost"
 					],
+					"port": "3000",
 					"path": [
+						"clientes",
 						"106"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Cliente Mongo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3001/mongo/clientes/102",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"mongo",
+						"clientes",
+						"102"
 					]
 				}
 			},
@@ -115,9 +256,43 @@
 					}
 				},
 				"url": {
-					"raw": "{{l3000}}productos",
+					"raw": "http://localhost:3000/productos",
+					"protocol": "http",
 					"host": [
-						"{{l3000}}productos"
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"productos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post Productos Mongo",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"marca\":\"Boston Dynamics\",\r\n    \"nombre\":\"Robots asesinos\",\r\n    \"descripcion\":\"Kaboom boom boooooom\",\r\n    \"precio\":100000,\r\n    \"stock\":500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/mongo/productos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"mongo",
+						"productos"
 					]
 				}
 			},
@@ -138,12 +313,45 @@
 					}
 				},
 				"url": {
-					"raw": "{{l3000}}productos/101",
+					"raw": "http://localhost:3000/productos/101",
+					"protocol": "http",
 					"host": [
-						"{{l3000}}productos"
+						"localhost"
 					],
+					"port": "3000",
 					"path": [
+						"productos",
 						"101"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put productos Mongo",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"marca\":\"Boston Dynamics Inc\",\r\n    \"nombre\":\"Robots asesinos\",\r\n    \"descripcion\":\"Kaboom boom boooooom\",\r\n    \"precio\":100000,\r\n    \"stock\":500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3001/mongo/productos/102",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3001",
+					"path": [
+						"mongo",
+						"productos",
+						"102"
 					]
 				}
 			},
