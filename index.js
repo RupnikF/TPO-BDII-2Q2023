@@ -212,7 +212,7 @@ if(chooseserver.mongodb) {
       
       const newProducto = new ProductosModel({codigo_producto: newCode, ...req.body});
       const savedProduct = await newProducto.save();
-      res.status(201).json(savedProduct); // Respond with the saved document
+      res.status(201).json(savedProduct); // Se retorna el documento guardado
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error when requesting to post a Product' });
@@ -231,7 +231,7 @@ if(chooseserver.mongodb) {
       );
 
       if (!updatedProduct) {
-        return res.status(404).json({ error: 'Client not found' });
+        return res.status(404).json({ error: 'Product not found' });
       }
 
       res.json(updatedProduct);
