@@ -17,6 +17,6 @@ exports.mongoclient = {
 }
 
 exports.chooseserver = {
-  postgresql: false,
+  postgresql: true,
   mongodb: true
 }
