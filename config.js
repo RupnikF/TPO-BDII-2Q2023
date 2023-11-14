@@ -5,8 +5,18 @@ const client = new Client({
   user: 'postgres',
   host: 'localhost',
   database: 'postgres',
-  password: 'postgres',
+  password: 'root',
   port: 5432,
 });
 
 exports.client = client;
+
+
+exports.mongoclient = {
+  hosturl: 'mongodb://127.0.0.1/tpo',
+}
+
+exports.chooseserver = {
+  postgresql: false,
+  mongodb: true
+}
